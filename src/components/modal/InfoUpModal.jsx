@@ -1,28 +1,28 @@
-import { useEffect, useState } from "react";
-import style from "../../css/InfoUpModal.module.css";
-import { useSelector, useDispatch } from "react-redux";
-import { setUserAllInfo } from "../../store/userStore";
+import { useEffect, useState } from 'react';
+import style from '../../css/InfoUpModal.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserAllInfo } from '../../store/userStore';
 
 const InfoUpModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
   const [nickname, setNickname] = useState(userInfo.nick);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
-  const [imgUrl, setImgUrl] = useState(`${URL}${userInfo.thumbnail}`);
+  const [imgUrl, setImgUrl] = useState(`${apiUrl}${userInfo.thumbnail}`);
   const [preImg, setPreImg] = useState(null);
 
   const formData = new FormData();
-  formData.append("id", userInfo.id);
-  formData.append("nick", nickname);
+  formData.append('id', userInfo.id);
+  formData.append('nick', nickname);
   if (preImg) {
-    formData.append("thumbnail", preImg);
+    formData.append('thumbnail', preImg);
   }
 
   const userPwCheck = async () => {
     try {
-      const response = await fetch(`${URL}/user/infoUpdate`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/infoUpdate`, {
+        method: 'POST',
         body: formData,
       });
 
@@ -31,12 +31,12 @@ const InfoUpModal = ({ onClose }) => {
         dispatch(setUserAllInfo(data));
         onClose();
       } else {
-        alert(data.message || "정보 수정에 실패했습니다. 다시 시도해 주세요.");
-        console.error("정보 수정 실패:", data.message);
+        alert(data.message || '정보 수정에 실패했습니다. 다시 시도해 주세요.');
+        console.error('정보 수정 실패:', data.message);
       }
     } catch (err) {
-      alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
-      console.error("정보 수정 중 서버 오류:", err);
+      alert('서버와의 통신 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      console.error('정보 수정 중 서버 오류:', err);
     }
   };
 
@@ -46,7 +46,7 @@ const InfoUpModal = ({ onClose }) => {
 
     // 이미지 URL 생성
     if (file) {
-      const url = URL.createObjectURL(file);
+      const url = apiUrl.createObjectURL(file);
       setImgUrl(url);
     } else {
       setImgUrl(null);
@@ -55,7 +55,7 @@ const InfoUpModal = ({ onClose }) => {
 
   useEffect(() => {
     // 초기 이미지 미리보기 설정
-    setImgUrl(`${URL}${userInfo.thumbnail}`);
+    setImgUrl(`${apiUrl}${userInfo.thumbnail}`);
   }, [userInfo]);
 
   return (
@@ -83,9 +83,9 @@ const InfoUpModal = ({ onClose }) => {
                       src={imgUrl}
                       alt="Preview"
                       style={{
-                        width: "100%",
-                        height: "300px",
-                        borderRadius: "50%",
+                        width: '100%',
+                        height: '300px',
+                        borderRadius: '50%',
                       }}
                     />
                   </div>

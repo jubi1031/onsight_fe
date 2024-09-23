@@ -1,12 +1,12 @@
-import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import style from "../../css/PwUpModal.module.css";
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import style from '../../css/PwUpModal.module.css';
 
 const PwUpModal = ({ onClose, onPasswordChange }) => {
   const user = useSelector((state) => state.user.userInfo);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
@@ -14,19 +14,19 @@ const PwUpModal = ({ onClose, onPasswordChange }) => {
   const currentPasswordRef = useRef(null);
   const newPasswordRef = useRef(null);
   const confirmNewPasswordRef = useRef(null);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const pwChange = async () => {
     if (newPassword !== confirmNewPassword) {
-      alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+      alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
       return;
     }
 
     try {
-      const response = await fetch(`${URL}/user/pwUpdate`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/pwUpdate`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: user.id,
@@ -39,20 +39,20 @@ const PwUpModal = ({ onClose, onPasswordChange }) => {
 
       if (response.ok) {
         alert(data.message);
-        onPasswordChange("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
+        onPasswordChange('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
         onClose();
       } else {
-        alert(data.message || "비밀번호 변경에 실패했습니다.");
+        alert(data.message || '비밀번호 변경에 실패했습니다.');
       }
     } catch (err) {
-      alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
-      console.error("비밀번호 변경 중 서버 오류:", err);
+      alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+      console.error('비밀번호 변경 중 서버 오류:', err);
     }
   };
 
   const toggleVisibility = (setter, ref) => {
     setter((prev) => !prev);
-    ref.current.type = ref.current.type === "password" ? "text" : "password";
+    ref.current.type = ref.current.type === 'password' ? 'text' : 'password';
   };
 
   return (

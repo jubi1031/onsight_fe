@@ -14,11 +14,11 @@ const formatDate = (date) => {
 };
 
 const ListCard = ({ title, center, detail, date, thumbnail, itemType }) => {
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
   const imgPath =
     itemType === 'challenge' || itemType === 'center'
       ? thumbnail
-      : `${URL}` + thumbnail;
+      : `${apiUrl}` + thumbnail;
   const renderDate = () => {
     if (Array.isArray(date)) {
       return (

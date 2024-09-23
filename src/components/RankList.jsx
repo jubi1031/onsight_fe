@@ -1,13 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import style from "../css/RankList.module.css";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import style from '../css/RankList.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const RankList = ({ hoveredCard }) => {
   const records = useSelector((state) => state.record.recordInfo);
   const users = useSelector((state) => state.userAll.userAllInfo);
   const navigate = useNavigate();
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const userLevelSumMap = {};
 
@@ -33,9 +33,9 @@ const RankList = ({ hoveredCard }) => {
   const top8Users = sortedUsers.slice(3, 8);
 
   const rankCrown = (rank) => {
-    if (rank === 0) return "/img/crown1.png";
-    if (rank === 1) return "/img/crown2.png";
-    if (rank === 2) return "/img/crown3.png";
+    if (rank === 0) return '/img/crown1.png';
+    if (rank === 1) return '/img/crown2.png';
+    if (rank === 2) return '/img/crown3.png';
     return null;
   };
 
@@ -53,14 +53,17 @@ const RankList = ({ hoveredCard }) => {
           <li
             key={user.id}
             className={`${style.rankListCard} ${
-              hoveredCard === index + 1 ? style.hover : ""
+              hoveredCard === index + 1 ? style.hover : ''
             }`}
             onClick={() => handleProfileClick(user.id)}
           >
             <strong>{index + 1}</strong>
             <span>
-              <img src={`${URL}${user.thumbnail}` || "/img/test.jpg"} alt="" />
-              <strong>{user.nick || "클라이머"}</strong>
+              <img
+                src={`${apiUrl}${user.thumbnail}` || '/img/test.jpg'}
+                alt=""
+              />
+              <strong>{user.nick || '클라이머'}</strong>
               <img
                 src={rankCrown(index)}
                 alt={`crown${index + 1}`}
@@ -76,7 +79,7 @@ const RankList = ({ hoveredCard }) => {
           <li
             key={user.id}
             className={`${style.rankListCard2} ${
-              hoveredCard === index + 4 ? style.hover : ""
+              hoveredCard === index + 4 ? style.hover : ''
             }`}
             onClick={() => handleProfileClick(user.id)}
           >
@@ -84,10 +87,10 @@ const RankList = ({ hoveredCard }) => {
               <strong>{index + 4}</strong>
               <span>
                 <img
-                  src={`${URL}${user.thumbnail}` || "/img/test.jpg"}
+                  src={`${apiUrl}${user.thumbnail}` || '/img/test.jpg'}
                   alt=""
                 />
-                <strong>{user.nick || "클라이머"}</strong>
+                <strong>{user.nick || '클라이머'}</strong>
               </span>
             </div>
             <span>{user.levelsum.toLocaleString()}</span>

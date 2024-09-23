@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import {
   setClimbingCenters,
   setDistrictCoordinates,
   setRecords,
-} from "../store/searchStore";
+} from '../store/searchStore';
 
 const useSearchData = (currentCenter) => {
   const dispatch = useDispatch();
   const [districtCoordinates, setDistrictCoordinatesState] = useState({});
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   useEffect(() => {
     axios
-      .get(`${URL}/api/district-coordinates`)
+      .get(`${apiUrl}/api/district-coordinates`)
       .then((response) => {
         const coordinates = {};
         response.data.forEach((item) => {
@@ -23,26 +23,26 @@ const useSearchData = (currentCenter) => {
         setDistrictCoordinatesState(coordinates);
         dispatch(setDistrictCoordinates(coordinates));
       })
-      .catch((error) => console.error("API 요청 에러:", error));
+      .catch((error) => console.error('API 요청 에러:', error));
   }, [dispatch]);
 
   useEffect(() => {
     axios
-      .get(`${URL}/api/center`)
+      .get(`${apiUrl}/api/center`)
       .then((response) => {
         dispatch(setClimbingCenters(response.data));
       })
-      .catch((error) => console.error("API 요청 에러:", error));
+      .catch((error) => console.error('API 요청 에러:', error));
   }, [dispatch]);
 
   useEffect(() => {
     if (currentCenter) {
       axios
-        .get(`${URL}/record/center?center=${currentCenter.center}`)
+        .get(`${apiUrl}/record/center?center=${currentCenter.center}`)
         .then((response) => {
           dispatch(setRecords(response.data));
         })
-        .catch((error) => console.error("기록 데이터 요청 에러:", error));
+        .catch((error) => console.error('기록 데이터 요청 에러:', error));
     }
   }, [currentCenter, dispatch]);
 

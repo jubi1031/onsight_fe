@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import style from "../css/MyPageList1.module.css";
-import FeedList from "./list/FeedList";
+import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import style from '../css/MyPageList1.module.css';
+import FeedList from './list/FeedList';
 
 const MyPageList3 = () => {
   const { user } = useOutletContext();
   const [feeds, setFeeds] = useState([]);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const fetchFeeds = async () => {
     try {
-      const response = await fetch(`${URL}/user/feeds`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/feeds`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user }),
       });
@@ -22,10 +22,10 @@ const MyPageList3 = () => {
         const data = await response.json();
         setFeeds(data);
       } else {
-        console.error("Failed to fetch feeds");
+        console.error('Failed to fetch feeds');
       }
     } catch (err) {
-      console.error("Error fetching feeds", err);
+      console.error('Error fetching feeds', err);
     }
   };
 

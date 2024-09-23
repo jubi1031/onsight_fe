@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import style from "../css/CrewGroupfeed.module.css";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import style from '../css/CrewGroupfeed.module.css';
 
 const CrewGroupfeed = () => {
   const { crewId } = useParams();
@@ -13,17 +13,17 @@ const CrewGroupfeed = () => {
   const user = useSelector((state) => state.user.userInfo);
 
   const selectedCrew = crew.find((c) => c._id === crewId);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const crewAdmin = selectedCrew && selectedCrew.userId === user.id;
 
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        const response = await axios.get(`${URL}/feed/crew/${crewId}`);
+        const response = await axios.get(`${apiUrl}/feed/crew/${crewId}`);
         setFeeds(response.data);
       } catch (error) {
-        console.error("error", error);
+        console.error('error', error);
       }
     };
 
@@ -31,10 +31,10 @@ const CrewGroupfeed = () => {
   }, [crewId]);
 
   const handleDelete = async (feedId) => {
-    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`${URL}/feed/${feedId}`, {
+        const response = await axios.delete(`${apiUrl}/feed/${feedId}`, {
           params: { userId: user.id },
         });
         alert(response.data.message);
@@ -42,19 +42,19 @@ const CrewGroupfeed = () => {
       } catch (error) {
         const errorMessage =
           error.response?.data?.message ||
-          "오류가 발생했습니다. 다시 시도해 주세요.";
+          '오류가 발생했습니다. 다시 시도해 주세요.';
         alert(`Error: ${errorMessage}`);
-        console.error("error", error);
+        console.error('error', error);
       }
     }
   };
 
   const toggleDeleteButton = (feedId) => {
     const deleteButton = document.getElementById(`delete-btn-${feedId}`);
-    if (deleteButton.style.display === "block") {
-      deleteButton.style.display = "none";
+    if (deleteButton.style.display === 'block') {
+      deleteButton.style.display = 'none';
     } else {
-      deleteButton.style.display = "block";
+      deleteButton.style.display = 'block';
     }
   };
 
@@ -69,7 +69,7 @@ const CrewGroupfeed = () => {
           <>
             <i
               className="fa-solid fa-ellipsis-vertical"
-              style={{ opacity: "0" }}
+              style={{ opacity: '0' }}
             ></i>
           </>
         )}
@@ -104,7 +104,7 @@ const CrewGroupfeed = () => {
                 <button
                   id={`delete-btn-${feed._id}`}
                   className={style.deleteButton}
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(feed._id);

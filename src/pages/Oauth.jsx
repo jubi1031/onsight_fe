@@ -8,7 +8,7 @@ function Oauth() {
   const navigate = useNavigate();
 
   const [redirect, setRedirect] = useState(false);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const getToken = async (code) => {
     if (!code) {
@@ -58,9 +58,6 @@ function Oauth() {
         // 사용자 정보 가져오기
         const kakaoInfo = await getUserInfo(tokenRes.access_token);
 
-        const apiUrl =
-          'https://port-0-onsight-be-m1euz2429dd546a4.sel4.cloudtype.app';
-
         const response = await fetch(`${apiUrl}/user/kakao`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -84,7 +81,7 @@ function Oauth() {
       }
     };
     fetchData();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     if (redirect) {

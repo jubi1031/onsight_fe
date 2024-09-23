@@ -1,47 +1,47 @@
-import axios from "axios";
-import style from "../css/Crew.module.css";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { setCrewAllInfo } from "../store/crewStore";
+import axios from 'axios';
+import style from '../css/Crew.module.css';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { setCrewAllInfo } from '../store/crewStore';
 
 const Crew = () => {
   const districtsByRegion = {
     seoul: [
-      "강남구",
-      "강동구",
-      "강서구",
-      "강북구",
-      "관악구",
-      "광진구",
-      "구로구",
-      "금천구",
-      "노원구",
-      "동대문구",
-      "도봉구",
-      "동작구",
-      "마포구",
-      "서대문구",
-      "성동구",
-      "성북구",
-      "서초구",
-      "송파구",
-      "영등포구",
-      "용산구",
-      "양천구",
-      "은평구",
-      "종로구",
-      "중구",
-      "중랑구",
+      '강남구',
+      '강동구',
+      '강서구',
+      '강북구',
+      '관악구',
+      '광진구',
+      '구로구',
+      '금천구',
+      '노원구',
+      '동대문구',
+      '도봉구',
+      '동작구',
+      '마포구',
+      '서대문구',
+      '성동구',
+      '성북구',
+      '서초구',
+      '송파구',
+      '영등포구',
+      '용산구',
+      '양천구',
+      '은평구',
+      '종로구',
+      '중구',
+      '중랑구',
     ],
   };
 
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [searchCrew, setSearchCrew] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [searchCrew, setSearchCrew] = useState('');
   const [toggle, setToggle] = useState(false);
   const [filteredCrew, setFilteredCrew] = useState([]);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const dispatch = useDispatch();
 
@@ -52,19 +52,19 @@ const Crew = () => {
 
   useEffect(() => {
     if (!user) {
-      alert("로그인 후 사용가능해요. 로그인 하시겠어요?");
-      navigate("/signinpage");
+      alert('로그인 후 사용가능해요. 로그인 하시겠어요?');
+      navigate('/signinpage');
     }
   }, [user, navigate]);
 
   useEffect(() => {
     const fetchCrews = async () => {
       try {
-        const response = await axios.get(`${URL}/crew`);
+        const response = await axios.get(`${apiUrl}/crew`);
         dispatch(setCrewAllInfo(response.data));
         setFilteredCrew(response.data);
       } catch (error) {
-        console.error("error", error);
+        console.error('error', error);
       }
     };
 
@@ -91,7 +91,7 @@ const Crew = () => {
 
   const handleRegionChange = (event) => {
     setSelectedRegion(event.target.value);
-    setSelectedDistrict(""); // Reset district selection when region changes
+    setSelectedDistrict(''); // Reset district selection when region changes
   };
 
   const handleDistrictChange = (event) => {
@@ -111,21 +111,21 @@ const Crew = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSearch();
     }
   };
 
   return (
     <main
-      className={`${style.mainCrew} ${toggle ? style.mainCrewToggled : ""}`}
+      className={`${style.mainCrew} ${toggle ? style.mainCrewToggled : ''}`}
     >
       <article>
         <div className={style.myCrewCon}>
           <h3>나의크루 리스트</h3>
           <i
             className={`fa-solid ${
-              toggle ? "fa-angle-right" : "fa-angle-left"
+              toggle ? 'fa-angle-right' : 'fa-angle-left'
             } ${toggle ? style.iconLeft : style.iconRight}`}
             onClick={toggleSidebar}
           ></i>
@@ -135,7 +135,7 @@ const Crew = () => {
                 <li key={crew._id} className={style.crewListCard}>
                   <Link to={`/crewdetail/${crew._id}`}>
                     <div className={style.crewImgBox}>
-                      <img src={`${URL}${crew.crewImg}`} alt="crew" />
+                      <img src={`${apiUrl}${crew.crewImg}`} alt="crew" />
                     </div>
                     <div className={style.crewTextBox}>
                       <div className={style.crewNameBox}>
@@ -207,7 +207,7 @@ const Crew = () => {
               <Link to={`/crewdetail/${crew._id}`} key={crew._id}>
                 <li className={style.crewListCard}>
                   <div className={style.recCrewImgBox}>
-                    <img src={`${URL}${crew.crewImg}`} alt="crew" />
+                    <img src={`${apiUrl}${crew.crewImg}`} alt="crew" />
                   </div>
                   <div className={style.crewListTextBox}>
                     <div className={style.crewListTextWrap}>

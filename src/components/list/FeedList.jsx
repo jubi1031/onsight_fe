@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
-import ListPagnation from "./ListPagnation";
-import { useNavigate } from "react-router-dom";
-import style from "../../css/FeedList.module.css";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import ListPagnation from './ListPagnation';
+import { useNavigate } from 'react-router-dom';
+import style from '../../css/FeedList.module.css';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const formatDate = (date) => {
   const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
   };
-  let formattedDate = new Intl.DateTimeFormat("ko-KR", options).format(
+  let formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(
     new Date(date)
   );
-  formattedDate = formattedDate.replace(/\./g, ".");
-  if (formattedDate.endsWith(".")) {
+  formattedDate = formattedDate.replace(/\./g, '.');
+  if (formattedDate.endsWith('.')) {
     formattedDate = formattedDate.slice(0, -1);
   }
   return formattedDate;
 };
-const URL = process.env.REACT_APP_BACK_URL;
+const apiUrl = process.env.REACT_APP_BACK_URL;
 
 const FeedList = ({ items }) => {
   const [feeds, setFeeds] = useState([]);
@@ -65,18 +65,18 @@ const FeedList = ({ items }) => {
 
   const toggleDeleteButton = (feedId) => {
     const deleteButton = document.getElementById(`delete-btn-${feedId}`);
-    if (deleteButton.style.display === "block") {
-      deleteButton.style.display = "none";
+    if (deleteButton.style.display === 'block') {
+      deleteButton.style.display = 'none';
     } else {
-      deleteButton.style.display = "block";
+      deleteButton.style.display = 'block';
     }
   };
 
   const handleDelete = async (feedId) => {
-    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`${URL}/feed/${feedId}`, {
+        const response = await axios.delete(`${apiUrl}/feed/${feedId}`, {
           params: { userId: user.id },
         });
         alert(response.data.message);
@@ -84,9 +84,9 @@ const FeedList = ({ items }) => {
       } catch (error) {
         const errorMessage =
           error.response?.data?.message ||
-          "오류가 발생했습니다. 다시 시도해 주세요.";
+          '오류가 발생했습니다. 다시 시도해 주세요.';
         alert(`Error: ${errorMessage}`);
-        console.error("error", error);
+        console.error('error', error);
       }
     }
   };
@@ -131,7 +131,7 @@ const FeedList = ({ items }) => {
                   <button
                     id={`delete-btn-${item._id}`}
                     className={style.deleteButton}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDelete(item._id);

@@ -1,21 +1,21 @@
-import style from "../../css/Withdrawal.module.css";
-import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import style from '../../css/Withdrawal.module.css';
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 const WithdrawalModal = ({ onClose, onWithdrawSuccess }) => {
   const user = useSelector((state) => state.user.userInfo);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const passwordRef = useRef(null);
 
   const withdrawal = async () => {
     try {
-      const response = await fetch(`${URL}/user/withdrawal`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/withdrawal`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: user.id,
@@ -30,17 +30,17 @@ const WithdrawalModal = ({ onClose, onWithdrawSuccess }) => {
         onClose();
         onWithdrawSuccess();
       } else {
-        alert(data.message || "회원 탈퇴에 실패했습니다.");
+        alert(data.message || '회원 탈퇴에 실패했습니다.');
       }
     } catch (err) {
-      alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
-      console.error("회원 탈퇴 중 서버 오류:", err);
+      alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
+      console.error('회원 탈퇴 중 서버 오류:', err);
     }
   };
 
   const toggleVisibility = (setter, ref) => {
     setter((prev) => !prev);
-    ref.current.type = ref.current.type === "password" ? "text" : "password";
+    ref.current.type = ref.current.type === 'password' ? 'text' : 'password';
   };
 
   return (

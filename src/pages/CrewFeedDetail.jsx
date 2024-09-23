@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import DOMPurify from "dompurify";
-import { useSelector } from "react-redux"; // 리덕스 훅 추가
-import style from "../css/FeedDetail.module.css";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import DOMPurify from 'dompurify';
+import { useSelector } from 'react-redux'; // 리덕스 훅 추가
+import style from '../css/FeedDetail.module.css';
 
 const CrewFeedDetail = () => {
   const navigate = useNavigate();
@@ -15,20 +15,20 @@ const CrewFeedDetail = () => {
   // 실험은 나중에 해볼 예정
 
   const user = useSelector((state) => state.user.userInfo);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
-        const response = await axios.get(`${URL}/feed/detail/${feedId}`);
+        const response = await axios.get(`${apiUrl}/feed/detail/${feedId}`);
         setFeed(response.data);
         setCrewId(response.data.crewId);
 
-        await axios.post(`${URL}/feed/viewIncrement/${feedId}`, {
-          method: "POST",
+        await axios.post(`${apiUrl}/feed/viewIncrement/${feedId}`, {
+          method: 'POST',
         });
       } catch (error) {
-        console.error("error", error);
+        console.error('error', error);
       }
     };
 
@@ -44,10 +44,10 @@ const CrewFeedDetail = () => {
   };
 
   const handleDelete = async () => {
-    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`${URL}/feed/${feedId}`, {
+        const response = await axios.delete(`${apiUrl}/feed/${feedId}`, {
           params: { userId: user.id },
         });
         alert(response.data.message);
@@ -55,9 +55,9 @@ const CrewFeedDetail = () => {
       } catch (error) {
         const errorMessage =
           error.response?.data?.message ||
-          "오류가 발생했습니다. 다시 시도해 주세요.";
+          '오류가 발생했습니다. 다시 시도해 주세요.';
         alert(`Error: ${errorMessage}`);
-        console.error("error", error);
+        console.error('error', error);
         navigate(`/crewdetail/${crewId}`);
         // 크루 페이지 삭제되면서 41번째 줄에서 오류나고 navgiate가 작동을 안하는데
         // gpt한테 물어보니까 에러 밑에도 navgiate 달라고하고 이것도 일반적인 방법이라고 하길래 이렇게 썼어요

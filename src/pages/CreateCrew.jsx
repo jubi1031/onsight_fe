@@ -1,75 +1,75 @@
-import { useState } from "react";
-import axios from "axios";
-import style from "../css/CreateCrew.module.css";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import axios from 'axios';
+import style from '../css/CreateCrew.module.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCrew = () => {
-  const [name, setName] = useState("");
-  const [content, setContent] = useState("");
-  const [crewImg, setCrewImg] = useState("");
-  const [memberLimit, setMemberLimit] = useState("10");
-  const [selectedSi, setSelectedSi] = useState("");
-  const [selectedGu, setSelectedGu] = useState("");
+  const [name, setName] = useState('');
+  const [content, setContent] = useState('');
+  const [crewImg, setCrewImg] = useState('');
+  const [memberLimit, setMemberLimit] = useState('10');
+  const [selectedSi, setSelectedSi] = useState('');
+  const [selectedGu, setSelectedGu] = useState('');
   const [gus, setGus] = useState([]);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const navigate = useNavigate();
 
-  const [previewSrc, setPreviewSrc] = useState("/img/noimg.jpg");
+  const [previewSrc, setPreviewSrc] = useState('/img/noimg.jpg');
 
   const user = useSelector((state) => state.user.userInfo);
 
   const handleButtonClick = () => {
-    document.getElementById("crewImgInput").click();
+    document.getElementById('crewImgInput').click();
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const fileUrl = URL.createObjectURL(file);
+      const fileUrl = apiUrl.createObjectURL(file);
       setPreviewSrc(fileUrl);
       setCrewImg(file);
     }
   };
 
   const handleRemoveImage = () => {
-    setPreviewSrc("/img/noimg.jpg");
-    setCrewImg("");
-    document.getElementById("crewImgInput").value = null;
+    setPreviewSrc('/img/noimg.jpg');
+    setCrewImg('');
+    document.getElementById('crewImgInput').value = null;
   };
 
   const handleSiChange = (event) => {
     const si = event.target.value;
     setSelectedSi(si);
 
-    if (si === "seoul") {
+    if (si === 'seoul') {
       setGus([
-        "강남구",
-        "강동구",
-        "강서구",
-        "강북구",
-        "관악구",
-        "광진구",
-        "구로구",
-        "금천구",
-        "노원구",
-        "동대문구",
-        "도봉구",
-        "동작구",
-        "마포구",
-        "서대문구",
-        "성동구",
-        "성북구",
-        "서초구",
-        "송파구",
-        "영등포구",
-        "용산구",
-        "양천구",
-        "은평구",
-        "종로구",
-        "중구",
-        "중랑구",
+        '강남구',
+        '강동구',
+        '강서구',
+        '강북구',
+        '관악구',
+        '광진구',
+        '구로구',
+        '금천구',
+        '노원구',
+        '동대문구',
+        '도봉구',
+        '동작구',
+        '마포구',
+        '서대문구',
+        '성동구',
+        '성북구',
+        '서초구',
+        '송파구',
+        '영등포구',
+        '용산구',
+        '양천구',
+        '은평구',
+        '종로구',
+        '중구',
+        '중랑구',
       ]);
     } else {
       setGus([]);
@@ -84,26 +84,26 @@ const CreateCrew = () => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("userId", user.id);
-    formData.append("name", name);
-    formData.append("content", content);
-    formData.append("crewImg", crewImg);
-    formData.append("memberLimit", memberLimit);
-    formData.append("si", selectedSi);
-    formData.append("gu", selectedGu);
+    formData.append('userId', user.id);
+    formData.append('name', name);
+    formData.append('content', content);
+    formData.append('crewImg', crewImg);
+    formData.append('memberLimit', memberLimit);
+    formData.append('si', selectedSi);
+    formData.append('gu', selectedGu);
 
     try {
-      const response = await axios.post(`${URL}/crew`, formData, {
+      const response = await axios.post(`${apiUrl}/crew`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
       if (response.status === 200) {
-        alert("크루가 생성되었습니다.");
-        navigate("/crew");
+        alert('크루가 생성되었습니다.');
+        navigate('/crew');
       }
     } catch (error) {
-      console.error("error", error);
+      console.error('error', error);
     }
   };
 
@@ -122,7 +122,7 @@ const CreateCrew = () => {
                   type="file"
                   id="crewImgInput"
                   onChange={handleFileChange}
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                 />
                 <button
                   type="button"

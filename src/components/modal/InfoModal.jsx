@@ -1,18 +1,18 @@
-import { useSelector } from "react-redux";
-import style from "../../css/InfoModal.module.css";
-import { useState } from "react";
+import { useSelector } from 'react-redux';
+import style from '../../css/InfoModal.module.css';
+import { useState } from 'react';
 
 const InfoModal = ({ onClose, onPwCheck }) => {
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const user = useSelector((state) => state.user.userInfo);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const userPwCheck = async () => {
     try {
-      const response = await fetch(`${URL}/user/pwCheck`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/pwCheck`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ id: user.id, password }),
       });
@@ -23,13 +23,13 @@ const InfoModal = ({ onClose, onPwCheck }) => {
         onPwCheck();
       } else {
         alert(
-          data.message || "비밀번호 확인에 실패했습니다. 다시 시도해 주세요."
+          data.message || '비밀번호 확인에 실패했습니다. 다시 시도해 주세요.'
         );
-        console.error("비밀번호 확인 실패:", data.message);
+        console.error('비밀번호 확인 실패:', data.message);
       }
     } catch (err) {
-      alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해 주세요.");
-      console.error("비밀번호 확인 중 서버 오류:", err);
+      alert('서버와의 통신 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      console.error('비밀번호 확인 중 서버 오류:', err);
     }
   };
 

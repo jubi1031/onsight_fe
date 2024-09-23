@@ -1,6 +1,6 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   LineChart,
   Line,
@@ -8,10 +8,10 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import style from "../css/RecordDetail.module.css";
-import GaugeBar from "../components/GaugeBar";
-const URL = process.env.REACT_APP_BACK_URL;
+} from 'recharts';
+import style from '../css/RecordDetail.module.css';
+import GaugeBar from '../components/GaugeBar';
+const apiUrl = process.env.REACT_APP_BACK_URL;
 
 const RecordDetail = () => {
   const { id } = useParams();
@@ -74,7 +74,7 @@ const RecordDetail = () => {
           </div>
           <div className={style.leftBox}>
             <div className={style.imgBox}>
-              <img src={`${URL}${record.thumbnail}`} alt="thumbnail" />
+              <img src={`${apiUrl}${record.thumbnail}`} alt="thumbnail" />
             </div>
             <div className={style.crewDetailTextBox}>
               <p>{record.content}</p>
@@ -92,11 +92,11 @@ const RecordDetail = () => {
                     <YAxis hide />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "#A2D262",
-                        color: "#fff",
+                        backgroundColor: '#A2D262',
+                        color: '#fff',
                       }}
-                      itemStyle={{ color: "#fff" }}
-                      labelStyle={{ color: "#fff" }}
+                      itemStyle={{ color: '#fff' }}
+                      labelStyle={{ color: '#fff' }}
                     />
                     <Line
                       type="monotone"

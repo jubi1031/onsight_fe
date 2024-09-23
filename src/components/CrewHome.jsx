@@ -1,8 +1,8 @@
-import CrewGroupfeed from "./CrewGroupfeed";
-import style from "../css/CrewHome.module.css";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import CrewGroupfeed from './CrewGroupfeed';
+import style from '../css/CrewHome.module.css';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const CrewHome = () => {
   const { crewId } = useParams();
@@ -10,7 +10,7 @@ const CrewHome = () => {
   const user = useSelector((state) => state.user.userInfo);
 
   const selectedCrew = crew.find((c) => c._id === crewId);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const [crewMember, setCrewMember] = useState(false);
 
@@ -28,7 +28,7 @@ const CrewHome = () => {
     <div>
       <div key={selectedCrew._id} className={style.introCrew}>
         <div className={style.crewImgCon}>
-          <img src={`${URL}${selectedCrew.crewImg}`} alt="crew" />
+          <img src={`${apiUrl}${selectedCrew.crewImg}`} alt="crew" />
         </div>
         <p>{selectedCrew.content}</p>
         <span>피드</span>

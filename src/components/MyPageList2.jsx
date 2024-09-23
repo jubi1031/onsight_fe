@@ -1,21 +1,21 @@
-import RecordModal from "../components/RecordModal";
-import style from "../css/MyPageList1.module.css";
-import List from "./list/List";
-import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import RecordModal from '../components/RecordModal';
+import style from '../css/MyPageList1.module.css';
+import List from './list/List';
+import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 const MyPageList2 = () => {
   const { user, isOwnProfile } = useOutletContext();
   const [recodes, setRecodes] = useState([]);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   useEffect(() => {
     const fetchRecodes = async () => {
       try {
-        const response = await fetch(`${URL}/user/recodes`, {
-          method: "POST",
+        const response = await fetch(`${apiUrl}/user/recodes`, {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ user }),
         });
@@ -24,10 +24,10 @@ const MyPageList2 = () => {
           const data = await response.json();
           setRecodes(data);
         } else {
-          console.error("Failed to fetch recodes");
+          console.error('Failed to fetch recodes');
         }
       } catch (err) {
-        console.error("Error fetching recodes", err);
+        console.error('Error fetching recodes', err);
       }
     };
 

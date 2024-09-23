@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import style from "../css/Header.module.css";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUserAllInfo, setUserAllInfo } from "../store/userStore";
-import { persistor } from "../store/store";
-import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from 'react';
+import style from '../css/Header.module.css';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserAllInfo, setUserAllInfo } from '../store/userStore';
+import { persistor } from '../store/store';
+import { jwtDecode } from 'jwt-decode';
 
 const Header = () => {
   const user = useSelector((state) => state.user.userInfo);
@@ -25,26 +25,26 @@ const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("onSightToken");
+        const token = localStorage.getItem('onSightToken');
         if (token) {
           if (isTokenExpired(token)) {
             // 토큰 유효기간 확인
-            localStorage.removeItem("onSightToken");
+            localStorage.removeItem('onSightToken');
             dispatch(clearUserAllInfo());
-            alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
-            navigate("/signinpage");
+            alert('로그인이 만료되었습니다. 다시 로그인 해주세요.');
+            navigate('/signinpage');
             return;
           }
-          const response = await fetch(`${URL}/user/profile`, {
-            method: "POST",
+          const response = await fetch(`${apiUrl}/user/profile`, {
+            method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
           if (response.ok) {
@@ -55,12 +55,12 @@ const Header = () => {
           }
         }
       } catch (error) {
-        console.error("error", error);
+        console.error('error', error);
         dispatch(clearUserAllInfo());
       }
     };
 
-    const token = localStorage.getItem("onSightToken");
+    const token = localStorage.getItem('onSightToken');
     if (!user && token) {
       fetchProfile();
     }
@@ -73,7 +73,7 @@ const Header = () => {
       const currentTime = Date.now() / 1000;
       return decoded.exp < currentTime;
     } catch (error) {
-      console.error("Error decoding token:", error);
+      console.error('Error decoding token:', error);
       return true;
     }
   };
@@ -84,21 +84,21 @@ const Header = () => {
   const signout = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${URL}/user/logout`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/user/logout`, {
+        method: 'POST',
       });
       if (response.ok) {
         dispatch(clearUserAllInfo());
-        localStorage.removeItem("onSightToken");
-        localStorage.removeItem("onSightKakaoToken");
+        localStorage.removeItem('onSightToken');
+        localStorage.removeItem('onSightKakaoToken');
         persistor.purge();
-        alert("로그아웃 되었어요");
-        navigate("/");
+        alert('로그아웃 되었어요');
+        navigate('/');
       } else {
-        console.error("fail", response.statusText);
+        console.error('fail', response.statusText);
       }
     } catch (error) {
-      console.error("error", error);
+      console.error('error', error);
     }
   };
 
@@ -121,27 +121,27 @@ const Header = () => {
           </div>
         </h1>
         <nav>
-          <div className={`${style.holdBar} ${menuOpen ? style.showMenu : ""}`}>
+          <div className={`${style.holdBar} ${menuOpen ? style.showMenu : ''}`}>
             <NavLink
               to="/SearchPage"
               onClick={() => setMenuOpen(false)}
-              onMouseEnter={() => MouseHover("link1")}
-              onMouseLeave={() => MouseLeave("link1")}
-              className={({ isActive }) => (isActive ? style.active : "")}
+              onMouseEnter={() => MouseHover('link1')}
+              onMouseLeave={() => MouseLeave('link1')}
+              className={({ isActive }) => (isActive ? style.active : '')}
             >
               {({ isActive }) => (
                 <>
                   <img
                     src={
                       hoverImg.link1 || isActive
-                        ? "/img/eholdr.png"
-                        : "/img/holdr.png"
+                        ? '/img/eholdr.png'
+                        : '/img/holdr.png'
                     }
                     alt=""
                   />
                   <span
                     style={{
-                      color: hoverImg.link1 || isActive ? "#FF454A" : "#FFFFFF",
+                      color: hoverImg.link1 || isActive ? '#FF454A' : '#FFFFFF',
                     }}
                   >
                     암장찾기
@@ -152,23 +152,23 @@ const Header = () => {
             <NavLink
               to="/crew"
               onClick={() => setMenuOpen(false)}
-              onMouseEnter={() => MouseHover("link2")}
-              onMouseLeave={() => MouseLeave("link2")}
-              className={({ isActive }) => (isActive ? style.active : "")}
+              onMouseEnter={() => MouseHover('link2')}
+              onMouseLeave={() => MouseLeave('link2')}
+              className={({ isActive }) => (isActive ? style.active : '')}
             >
               {({ isActive }) => (
                 <>
                   <img
                     src={
                       hoverImg.link2 || isActive
-                        ? "/img/eholdb.png"
-                        : "/img/holdb.png"
+                        ? '/img/eholdb.png'
+                        : '/img/holdb.png'
                     }
                     alt=""
                   />
                   <span
                     style={{
-                      color: hoverImg.link2 || isActive ? "#0295CF" : "#FFFFFF",
+                      color: hoverImg.link2 || isActive ? '#0295CF' : '#FFFFFF',
                     }}
                   >
                     크루
@@ -179,23 +179,23 @@ const Header = () => {
             <NavLink
               to="/challenge"
               onClick={() => setMenuOpen(false)}
-              onMouseEnter={() => MouseHover("link3")}
-              onMouseLeave={() => MouseLeave("link3")}
-              className={({ isActive }) => (isActive ? style.active : "")}
+              onMouseEnter={() => MouseHover('link3')}
+              onMouseLeave={() => MouseLeave('link3')}
+              className={({ isActive }) => (isActive ? style.active : '')}
             >
               {({ isActive }) => (
                 <>
                   <img
                     src={
                       hoverImg.link3 || isActive
-                        ? "/img/eholdy.png"
-                        : "/img/holdy.png"
+                        ? '/img/eholdy.png'
+                        : '/img/holdy.png'
                     }
                     alt=""
                   />
                   <span
                     style={{
-                      color: hoverImg.link3 || isActive ? "#FFD02C" : "#FFFFFF",
+                      color: hoverImg.link3 || isActive ? '#FFD02C' : '#FFFFFF',
                     }}
                   >
                     챌린지
@@ -206,23 +206,23 @@ const Header = () => {
             <NavLink
               to="/rank"
               onClick={() => setMenuOpen(false)}
-              onMouseEnter={() => MouseHover("link4")}
-              onMouseLeave={() => MouseLeave("link4")}
-              className={({ isActive }) => (isActive ? style.active : "")}
+              onMouseEnter={() => MouseHover('link4')}
+              onMouseLeave={() => MouseLeave('link4')}
+              className={({ isActive }) => (isActive ? style.active : '')}
             >
               {({ isActive }) => (
                 <>
                   <img
                     src={
                       hoverImg.link4 || isActive
-                        ? "/img/eholdg.png"
-                        : "/img/holdg.png"
+                        ? '/img/eholdg.png'
+                        : '/img/holdg.png'
                     }
                     alt=""
                   />
                   <span
                     style={{
-                      color: hoverImg.link4 || isActive ? "#A2D262" : "#FFFFFF",
+                      color: hoverImg.link4 || isActive ? '#A2D262' : '#FFFFFF',
                     }}
                   >
                     랭킹
@@ -233,23 +233,23 @@ const Header = () => {
             <NavLink
               to={`/mypage/${user?.id}`}
               onClick={() => setMenuOpen(false)}
-              onMouseEnter={() => MouseHover("link5")}
-              onMouseLeave={() => MouseLeave("link5")}
-              className={({ isActive }) => (isActive ? style.active : "")}
+              onMouseEnter={() => MouseHover('link5')}
+              onMouseLeave={() => MouseLeave('link5')}
+              className={({ isActive }) => (isActive ? style.active : '')}
             >
               {({ isActive }) => (
                 <>
                   <img
                     src={
                       hoverImg.link5 || isActive
-                        ? "/img/eholdp.png"
-                        : "/img/holdp.png"
+                        ? '/img/eholdp.png'
+                        : '/img/holdp.png'
                     }
                     alt=""
                   />
                   <span
                     style={{
-                      color: hoverImg.link5 || isActive ? "#BE65FF" : "#FFFFFF",
+                      color: hoverImg.link5 || isActive ? '#BE65FF' : '#FFFFFF',
                     }}
                   >
                     MY
@@ -274,7 +274,7 @@ const Header = () => {
           <div className={style.signInWrap}>
             <div className={style.signInBox}>
               <i className="fa-solid fa-gear"></i>
-              <span onClick={() => navigate("/signinpage")}>로그인</span>
+              <span onClick={() => navigate('/signinpage')}>로그인</span>
               <i className="fa-solid fa-bars" onClick={toggleMenu}></i>
             </div>
           </div>

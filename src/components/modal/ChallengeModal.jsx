@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import style from "../../css/ChallengeModal.module.css";
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import ko from "date-fns/locale/ko";
+import { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import style from '../../css/ChallengeModal.module.css';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import ko from 'date-fns/locale/ko';
 // import axios from 'axios';
-import { ch } from "../../api.js";
+import { ch } from '../../api.js';
 
-registerLocale("ko", ko);
+registerLocale('ko', ko);
 
 function ChallengeModal({ onClose, isOpen, username }) {
   // const [show, setShow] = useState(true);
@@ -16,13 +16,13 @@ function ChallengeModal({ onClose, isOpen, username }) {
   const [openPlace, setOpenPlace] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [climbingCenters, setClimbingCenters] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("서울특별시");
-  const [selectedDistrict, setSelectedDistrict] = useState("전체");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState('서울특별시');
+  const [selectedDistrict, setSelectedDistrict] = useState('전체');
+  const [searchTerm, setSearchTerm] = useState('');
   const [showingCenters, setShowingCenters] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const isFirstRun = useRef(true);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   useEffect(() => {
     if (isFirstRun.current) {
@@ -30,7 +30,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
       return;
     }
     if (!username) {
-      alert("로그인이 필요합니다.");
+      alert('로그인이 필요합니다.');
       onClose();
     }
   }, [onClose, username]);
@@ -42,7 +42,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
 
   const resetForm = () => {
     setSelectedPlace(null);
-    setTitle("");
+    setTitle('');
   };
 
   const togglePlace = () => {
@@ -56,7 +56,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
 
   const handleSubmit = async () => {
     if (!title) {
-      alert("제목을 입력해주세요.");
+      alert('제목을 입력해주세요.');
       return;
     }
 
@@ -64,12 +64,12 @@ function ChallengeModal({ onClose, isOpen, username }) {
       title,
       username,
       selectedPlace,
-      "주소 모달창미구현",
-      startDate.toISOString().split("T")[0]
+      '주소 모달창미구현',
+      startDate.toISOString().split('T')[0]
     )
       .then((result) => {
         console.log(result);
-        alert("챌린지 생성이 완료되었습니다.");
+        alert('챌린지 생성이 완료되었습니다.');
         window.location.reload();
       })
       .catch((error) => {
@@ -82,10 +82,10 @@ function ChallengeModal({ onClose, isOpen, username }) {
   useEffect(() => {
     const fetchCenterData = async () => {
       try {
-        const response = await fetch(`${URL}/center/centerList`, {
-          method: "POST",
+        const response = await fetch(`${apiUrl}/center/centerList`, {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         });
 
@@ -94,10 +94,10 @@ function ChallengeModal({ onClose, isOpen, username }) {
           setClimbingCenters(data);
           setShowingCenters(data);
         } else {
-          console.error("Failed to fetch center");
+          console.error('Failed to fetch center');
         }
       } catch (err) {
-        console.error("Error fetching center", err);
+        console.error('Error fetching center', err);
       }
     };
 
@@ -108,7 +108,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
     const results = climbingCenters.filter((center) => {
       return (
         center.si === selectedCity &&
-        (selectedDistrict === "전체" || center.gu.includes(selectedDistrict)) &&
+        (selectedDistrict === '전체' || center.gu.includes(selectedDistrict)) &&
         center.center.includes(searchTerm)
       );
     });
@@ -116,9 +116,9 @@ function ChallengeModal({ onClose, isOpen, username }) {
   };
 
   const handleRefresh = () => {
-    setSelectedCity("서울특별시");
-    setSelectedDistrict("전체");
-    setSearchTerm("");
+    setSelectedCity('서울특별시');
+    setSelectedDistrict('전체');
+    setSearchTerm('');
     setShowingCenters(climbingCenters);
   };
 
@@ -153,7 +153,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
             <label htmlFor="place">운동 장소</label>
             <div className={style.placeC}>
               <div className={style.placeView} onClick={togglePlace}>
-                <span>{selectedPlace || "장소 선택"}</span>
+                <span>{selectedPlace || '장소 선택'}</span>
                 <i className="fa-solid fa-chevron-down"></i>
               </div>
               {openPlace && (
@@ -172,7 +172,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
                         setShowingCenters(
                           climbingCenters.filter(
                             (center) =>
-                              e.target.value === "전체" ||
+                              e.target.value === '전체' ||
                               center.gu.includes(e.target.value)
                           )
                         );
@@ -196,7 +196,7 @@ function ChallengeModal({ onClose, isOpen, username }) {
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === 'Enter') {
                           handleSearch();
                         }
                       }}

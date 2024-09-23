@@ -13,12 +13,12 @@ const SignInPage = () => {
   const [message1, setMessage1] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
   const SignIn = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${URL}/user/login`, {
+      const response = await fetch(`${apiUrl}/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, password }),

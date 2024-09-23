@@ -18,7 +18,7 @@ const SignUpPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordVisible2, setPasswordVisible2] = useState(false);
   const navigate = useNavigate();
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -67,7 +67,7 @@ const SignUpPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${URL}/user/register`, {
+      const response = await fetch(`${apiUrl}/user/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, nick, password }),

@@ -1,4 +1,4 @@
-import style from "../css/CrewDetail.module.css";
+import style from '../css/CrewDetail.module.css';
 import {
   NavLink,
   Routes,
@@ -6,15 +6,15 @@ import {
   useParams,
   useNavigate,
   Link,
-} from "react-router-dom";
-import CrewHome from "../components/CrewHome";
-import CrewWrite from "../components/CrewWrite";
-import CrewManage from "../components/CrewManage";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { setUserAllInfo } from "../store/userStore";
-import { setCrewAllInfo } from "../store/crewStore";
-import { setUsers } from "../store/userAllStore";
+} from 'react-router-dom';
+import CrewHome from '../components/CrewHome';
+import CrewWrite from '../components/CrewWrite';
+import CrewManage from '../components/CrewManage';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { setUserAllInfo } from '../store/userStore';
+import { setCrewAllInfo } from '../store/crewStore';
+import { setUsers } from '../store/userAllStore';
 
 const CrewDetail = () => {
   const { crewId } = useParams();
@@ -22,7 +22,7 @@ const CrewDetail = () => {
   const users = useSelector((state) => state.userAll.userAllInfo);
   const user = useSelector((state) => state.user.userInfo);
   const selectedCrew = crew.find((c) => c._id === crewId);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const CrewDetail = () => {
   const [crewMember, setCrewMember] = useState(false);
   const [crewAdmin, setCrewAdmin] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [filteredMembers, setFilteredMembers] = useState([]);
 
   useEffect(() => {
@@ -50,17 +50,17 @@ const CrewDetail = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleSearch();
     }
   };
 
   const handleJoinCrew = async () => {
     try {
-      const response = await fetch(`${URL}/crew/crewjoin`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/crew/crewjoin`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userId: user, crewId: selectedCrew }),
       });
@@ -70,20 +70,20 @@ const CrewDetail = () => {
         dispatch(setUsers(data.users));
         dispatch(setCrewAllInfo(data.crews));
       } else {
-        console.error("Failed to join crew");
+        console.error('Failed to join crew');
       }
     } catch (err) {
-      console.error("Error joining crew", err);
+      console.error('Error joining crew', err);
     }
   };
 
   const handleLeaveCrew = async () => {
-    if (window.confirm("정말로 크루를 탈퇴하시겠습니까?")) {
+    if (window.confirm('정말로 크루를 탈퇴하시겠습니까?')) {
       try {
-        const response = await fetch(`${URL}/crew/crewleave`, {
-          method: "POST",
+        const response = await fetch(`${apiUrl}/crew/crewleave`, {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ userId: user, crewId: selectedCrew }),
         });
@@ -93,16 +93,16 @@ const CrewDetail = () => {
           dispatch(setUsers(data.users));
           dispatch(setCrewAllInfo(data.crews));
         } else {
-          console.error("Failed to leave crew");
+          console.error('Failed to leave crew');
         }
       } catch (err) {
-        console.error("Error leaving crew", err);
+        console.error('Error leaving crew', err);
       }
     }
   };
 
   const moveToCrew = () => {
-    navigate("/crew");
+    navigate('/crew');
   };
 
   const handleMemberClick = (memberId) => {
@@ -120,11 +120,11 @@ const CrewDetail = () => {
   };
 
   return (
-    <div className={`${style.mainCrew} ${toggle ? style.mainCrewToggled : ""}`}>
+    <div className={`${style.mainCrew} ${toggle ? style.mainCrewToggled : ''}`}>
       <div className={style.leftCon}>
         <h3>크루원 찾기</h3>
         <i
-          className={`fa-solid ${toggle ? "fa-angle-right" : "fa-angle-left"} ${
+          className={`fa-solid ${toggle ? 'fa-angle-right' : 'fa-angle-left'} ${
             toggle ? style.iconLeft : style.iconRight
           }`}
           onClick={toggleSidebar}
@@ -142,7 +142,7 @@ const CrewDetail = () => {
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
           </div>
-          <ul className={`${style.memberCon} ${!crewMember ? style.blur : ""}`}>
+          <ul className={`${style.memberCon} ${!crewMember ? style.blur : ''}`}>
             {selectedCrew &&
               filteredMembers.map((memberId) => {
                 const memberInfo = users.find((user) => user.id === memberId);
@@ -154,7 +154,7 @@ const CrewDetail = () => {
                     <div className={style.nickWrap}>
                       <div className={style.profileBox}>
                         <img
-                          src={`${URL}${memberInfo.thumbnail}`}
+                          src={`${apiUrl}${memberInfo.thumbnail}`}
                           alt="프로필 사진"
                         />
                       </div>
@@ -182,7 +182,7 @@ const CrewDetail = () => {
                   <NavLink
                     to={`/crewdetail/${crewId}/crewhome`}
                     aria-current={({ isActive }) =>
-                      isActive ? "page" : undefined
+                      isActive ? 'page' : undefined
                     }
                   >
                     크루홈
@@ -194,7 +194,7 @@ const CrewDetail = () => {
                       to={`/crewdetail/${crewId}/crewwrite`}
                       state={{ crewName: selectedCrew.name }}
                       aria-current={({ isActive }) =>
-                        isActive ? "page" : undefined
+                        isActive ? 'page' : undefined
                       }
                     >
                       글쓰기
@@ -210,7 +210,7 @@ const CrewDetail = () => {
                     <NavLink
                       to={`/crewdetail/${crewId}/crewmanage`}
                       aria-current={({ isActive }) =>
-                        isActive ? "page" : undefined
+                        isActive ? 'page' : undefined
                       }
                     >
                       관리하기

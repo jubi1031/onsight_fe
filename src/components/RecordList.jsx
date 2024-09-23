@@ -1,19 +1,19 @@
-import style from "../css/RecordList.module.css";
-import { useState, useEffect, useRef, useCallback } from "react";
-import axios from "axios";
-import RecordModal from "./RecordModal";
-import { useDispatch, useSelector } from "react-redux";
-import { setRecordAllInfo } from "../store/recordStore";
-import { useNavigate } from "react-router-dom";
+import style from '../css/RecordList.module.css';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import axios from 'axios';
+import RecordModal from './RecordModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRecordAllInfo } from '../store/recordStore';
+import { useNavigate } from 'react-router-dom';
 
 const RecordList = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [currentCenter, setCurrentCenter] = useState("클라이밍장");
-  const [currentNick, setCurrentNick] = useState("클라이머");
-  const [typingCenter, setTypingCenter] = useState("");
-  const [typingNick, setTypingNick] = useState("");
+  const [currentCenter, setCurrentCenter] = useState('클라이밍장');
+  const [currentNick, setCurrentNick] = useState('클라이머');
+  const [typingCenter, setTypingCenter] = useState('');
+  const [typingNick, setTypingNick] = useState('');
   const swiperConRef = useRef(null);
-  const URL = process.env.REACT_APP_BACK_URL;
+  const apiUrl = process.env.REACT_APP_BACK_URL;
 
   const navigate = useNavigate();
 
@@ -26,10 +26,10 @@ const RecordList = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get(`${URL}/record`);
+        const response = await axios.get(`${apiUrl}/record`);
         dispatch(setRecordAllInfo(response.data));
       } catch (error) {
-        console.error("Error", error);
+        console.error('Error', error);
       }
     };
 
@@ -60,9 +60,9 @@ const RecordList = () => {
 
   useEffect(() => {
     const swiperCon = swiperConRef.current;
-    swiperCon.addEventListener("scroll", handleScroll);
+    swiperCon.addEventListener('scroll', handleScroll);
     return () => {
-      swiperCon.removeEventListener("scroll", handleScroll);
+      swiperCon.removeEventListener('scroll', handleScroll);
     };
   }, [handleScroll]);
 
@@ -72,8 +72,8 @@ const RecordList = () => {
 
   const handleMouseEnter = (index, center, nick) => {
     setHoveredIndex(index);
-    setCurrentCenter(center || "");
-    setCurrentNick(nick || "");
+    setCurrentCenter(center || '');
+    setCurrentNick(nick || '');
 
     const swiperCon = swiperConRef.current;
     const boxes = swiperCon.querySelectorAll(`.${style.swiperBox}`);
@@ -127,8 +127,8 @@ const RecordList = () => {
   }, [currentCenter, currentNick]);
 
   useEffect(() => {
-    setTypingCenter("");
-    setTypingNick("");
+    setTypingCenter('');
+    setTypingNick('');
   }, [currentCenter, currentNick]);
 
   return (
@@ -148,7 +148,7 @@ const RecordList = () => {
                   navigate(`/recorddetail/${record._id}`);
                 }}
               >
-                <img src={`${URL}${record.thumbnail}`} alt="thumbnail" />
+                <img src={`${apiUrl}${record.thumbnail}`} alt="thumbnail" />
               </div>
             ))}
         </div>
