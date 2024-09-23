@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const baseURL =
-  process.env.REACT_APP_BACK_URL || 'https://port-0-onsight-1pgyr2mlvly1kx0.sel5.cloudtype.app';
+  process.env.REACT_APP_BACK_URL ||
+  'https://port-0-onsight-be-m1euz2429dd5464a.sel4.cloudtype.app:8000';
 
 // axios 인스턴스를 생성합니다.
 const instance = axios.create({
